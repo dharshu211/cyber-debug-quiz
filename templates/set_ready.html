@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Ready · Set {{ set_number }}</title><link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='abhiraj-final-20260909') }}"></head>
+<body><div class="page-container"><div class="instruction-card ready-card">
+<div class="shield">⌘</div><div class="eyebrow">CASE UNLOCKED</div><h1>Set {{ set_number }} Ready</h1><p class="subtitle">Your debugging challenge is ready to begin.</p>
+<div class="ready-stats"><div><span>Questions</span><strong>2</strong></div><div><span>Maximum Marks</span><strong>20</strong></div><div><span>Time</span><strong>25:00</strong></div></div>
+<p class="danger">Once you click Start Test, the 25-minute timer begins. Switching tabs will terminate the test.</p>
+<div class="page-navigation"><a href="/sets" class="secondary-btn">← Change Set</a><form action="/begin" method="POST"><button class="primary-btn" type="submit">Start Test →</button></form></div>
+</div></div></body></html>

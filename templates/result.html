@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page_title }} · Hunt The Code</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='abhiraj-final-20260909') }}">
+</head>
+<body class="result-page-bg">
+<div class="result-page">
+    <div class="result-card result-thankyou-card">
+        <div class="result-trophy {{ 'result-trophy-danger' if eliminated else '' }}">{{ '⚠' if eliminated else '🏆' }}</div>
+        <div class="eyebrow">CODE CRIME · HUNT THE CODE</div>
+        <h1>{{ heading }}</h1>
+        {% if name or team_name %}<p class="result-participant">{{ name }}{% if team_name %} · {{ team_name }}{% endif %}</p>{% endif %}
+
+        {% if eliminated %}
+        <div class="eliminated-box">
+            <strong>Session terminated — you are eliminated.</strong>
+            <p>Your test was stopped because an anti-cheat rule was triggered. Please follow the event rules carefully. Better luck next time!</p>
+        </div>
+        {% else %}
+        <div class="completed-box">
+            <strong>Thank you for participating!</strong>
+            <p>Your submission has been successfully recorded. Keep learning, keep debugging, and keep coding. The official result is available only to the administrator.</p>
+        </div>
+        {% endif %}
+
+        <div class="result-actions">
+            <a href="/" class="primary-btn result-home-btn">Home</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

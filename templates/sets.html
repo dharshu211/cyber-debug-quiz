@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choose Set</title><link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='abhiraj-final-20260909') }}">
+</head>
+<body class="sets-page">
+<div class="sets-wrap">
+<div class="sets-heading"><span>HUNT THE CODE</span><h1>Choose Your Set</h1><p>Select one set and enter the password given by the event organizers.</p></div>
+{% if error %}<div class="error-box">{{ error }}</div>{% endif %}
+{% if selected_set %}<div class="error-box set-error">Password was incorrect for Set {{ selected_set }}.</div>{% endif %}
+<div class="set-grid">
+{% for item in sets %}
+<div class="set-card">
+    <div class="set-icon">&lt;/&gt;</div>
+    <div class="set-number">SET {{ item.number }}</div>
+    <h2>Debugging Challenge</h2>
+    <p>2 questions · 4 hidden tests each · 20 marks · 25 minutes</p>
+    <button class="primary-btn" onclick="openPassword({{ item.number }})">Enter Set</button>
+</div>
+{% endfor %}
+</div>
+<div class="page-navigation set-page-nav"><a href="/instructions" class="secondary-btn">← Instructions</a><a href="/" class="secondary-btn">⌂ Home</a></div>
+</div>
+<div id="passwordModal" class="modal hidden">
+<div class="modal-card">
+<h2>Unlock Set <span id="modalSetNumber"></span></h2>
+<p>Enter the password provided by the event organizers.</p>
+<form action="/unlock" method="POST">
+<input type="hidden" id="setNumberInput" name="set_number">
+<input type="password" name="password" placeholder="Enter password" autocomplete="off" required>
+<div class="modal-actions"><button type="button" class="secondary-btn" onclick="closePassword()">Cancel</button><button type="submit" class="primary-btn">Unlock</button></div>
+</form>
+</div></div>
+<script>
+function openPassword(n){document.getElementById('passwordModal').classList.remove('hidden');document.getElementById('modalSetNumber').textContent=n;document.getElementById('setNumberInput').value=n;document.querySelector('#passwordModal input[type=password]').value='';document.querySelector('#passwordModal input[type=password]').focus();}
+function closePassword(){document.getElementById('passwordModal').classList.add('hidden');}
+document.getElementById('passwordModal').addEventListener('click', function(e){if(e.target===this) closePassword();});
+</script>
+</body></html>

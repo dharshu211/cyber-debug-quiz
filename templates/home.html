@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HUNT THE CODE · CODE CRIME</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='abhiraj-final-20260909') }}">
+</head>
+<body class="home-page">
+<header class="home-nav">
+    <div class="brand"><span class="brand-mark">⌘</span><span>CODE CRIME</span></div>
+    <div class="nav-links">
+        <a href="/login" class="nav-login">Login</a>
+        <a href="/admin" class="nav-admin">Admin</a>
+    </div>
+</header>
+
+<main class="hero-wrap">
+    <section class="hero-copy">
+        <div class="eyebrow">DESPOTIX 2K26 · INFORMATION TECHNOLOGY</div>
+        <h1>HUNT <span>THE CODE</span></h1>
+        <p class="hero-subtitle">Crack the clues. Debug the program. Reveal the truth.</p>
+        <p class="hero-text">
+            Welcome to the debugging challenge of <strong>CODE CRIME</strong>, presented by the Department of Information Technology.
+            Put your programming skills, logical thinking and debugging instincts to the test by tracking down hidden errors and turning broken code into a working solution.
+            Every line is a clue — your mission is to find it before time runs out.
+        </p>
+        <div class="hero-actions">
+            <a href="/login" class="primary-btn hero-login">Enter the Event →</a>
+            <a href="#about" class="secondary-btn hero-more">Mission Brief</a>
+        </div>
+        <div class="hero-stats">
+            <div><strong>2</strong><span>Sets</span></div>
+            <div><strong>2</strong><span>Questions / Set</span></div>
+            <div><strong>25</strong><span>Minutes</span></div>
+            <div><strong>20</strong><span>Marks / Set</span></div>
+        </div>
+    </section>
+
+    <aside class="poster-panel cyber-hero-panel">
+        <div class="poster-frame cyber-hero-frame">
+            <img src="{{ url_for('static', filename='images/cyber_hunt_hero.jpg') }}" alt="Cybersecurity Hunt The Code illustration">
+            <div class="hero-image-glow"></div>
+        </div>
+        <div class="poster-caption">TRACE THE BUG · BREAK THE CODE · SOLVE THE CASE</div>
+    </aside>
+</main>
+
+<section id="about" class="mission-section">
+    <div>
+        <span class="section-label">YOUR MISSION</span>
+        <h2>Find the bug. Fix the logic. Finish the case.</h2>
+    </div>
+    <p>
+        CODE CRIME turns debugging into an investigation. Read the evidence, identify the faulty logic,
+        repair the program and submit your corrected code. Hidden test cases will check your solution,
+        so accuracy matters as much as speed.
+    </p>
+</section>
+
+<footer class="home-footer">
+    <span>S.A. Engineering College · Department of Information Technology</span>
+    <a href="/admin">Admin Results</a>
+</footer>
+</body>
+</html>

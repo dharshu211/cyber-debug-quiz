@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Participant Answers · Admin</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='abhiraj-final-20260909') }}">
+</head>
+<body class="leaderboard-page">
+<div class="answers-card">
+    <div class="answers-heading">
+        <div class="trophy">👁</div>
+        <div><h1>Participant Answers</h1><p>Protected answer view</p></div>
+    </div>
+    <div class="answer-meta">
+        <div><span>Team</span><strong>{{ result["team_name"] }}</strong></div>
+        <div><span>Participant</span><strong>{{ result["student_name"] }}</strong></div>
+        <div><span>Email</span><strong>{{ result["email"] }}</strong></div>
+        <div><span>Set</span><strong>Set {{ result["set_number"] }}</strong></div>
+        <div><span>Score</span><strong>{{ result["score"] }}/{{ result["max_score"] }}</strong></div>
+    </div>
+    {% for item in answers %}
+    <section class="submitted-answer-card">
+        <div class="submitted-answer-head"><h2>Question {{ item["id"] }} · {{ item["title"] }}</h2></div>
+        <pre class="submitted-answer">{{ item["answer"] }}</pre>
+    </section>
+    {% else %}
+    <div class="empty">No answers were stored for this submission.</div>
+    {% endfor %}
+    <div class="page-navigation"><a href="/admin" class="secondary-btn">← Back to Results</a><a href="/admin/download/{{ result['id'] }}.xlsx" class="primary-btn">⬇ Download Excel</a></div>
+</div>
+</body>
+</html>

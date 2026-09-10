@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Participant Login · Hunt The Code</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='abhiraj-final-20260909') }}">
+</head>
+<body class="login-body">
+<div class="login-card login-card-modern">
+    <div class="shield">⌘</div>
+    <div class="eyebrow">CODE CRIME · HUNT THE CODE</div>
+    <h1>Participant Login</h1>
+    <p class="subtitle">Enter your team details to begin the debugging challenge.</p>
+    <form action="/start" method="POST">
+        <label>Team Name</label>
+        <input type="text" name="team_name" placeholder="Enter team name" required autocomplete="off">
+        <label>Participant Name</label>
+        <input type="text" name="name" placeholder="Enter participant name" required autocomplete="name">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="Enter email" required autocomplete="email">
+        <button type="submit" class="primary-btn">Continue →</button>
+    </form>
+    <div class="login-bottom-links">
+        <a class="secondary-btn" href="/">Home</a>
+        <a class="admin-link" href="/admin">Admin Results</a>
+    </div>
+</div>
+</body>
+</html>

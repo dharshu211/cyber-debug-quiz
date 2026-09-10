@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Result Sheet · Admin</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='abhiraj-final-20260909') }}">
+</head>
+<body class="leaderboard-page">
+<div class="leaderboard-card">
+<div class="leaderboard-title"><div class="trophy">🏆</div><h1>Result Sheet</h1><p>Official leaderboard for Set 1 and Set 2 · ranked by score, then time</p></div>
+{% if not public %}
+<div class="admin-toolbar">
+    <span>Admin access enabled</span>
+    <a class="secondary-btn" href="/admin/export.xlsx">⬇ Download All Results</a>
+    <button class="danger-btn" type="button" onclick="clearLeaderboard()">🗑 Clear Leaderboard</button>
+    <a class="secondary-btn" href="/admin/logout">Logout</a>
+</div>
+{% endif %}
+{% if dustbin_error %}<div class="error-box">Incorrect dustbin password. No result was deleted.</div>{% endif %}
+{% if show_error %}<div class="error-box">Incorrect Show Answers password. Please try again.</div>{% endif %}
+<div class="table-container"><table><thead><tr><th>Rank</th><th>Team Name</th><th>Participant</th><th>Set</th><th>Score</th><th>Time</th><th>Status</th>{% if not public %}<th>Actions</th>{% endif %}</tr></thead><tbody>
+{% for result in results %}
+<tr>
+<td>{% if loop.index==1 %}🥇{% elif loop.index==2 %}🥈{% elif loop.index==3 %}🥉{% else %}{{ loop.index }}{% endif %}</td>
+<td>{{ result["team_name"] }}</td><td>{{ result["student_name"] }}</td><td>Set {{ result["set_number"] }}</td>
+<td><strong>{{ result["score"] }}/{{ result["max_score"] }}</strong></td>
+<td>{{ "%02d:%02d"|format(result["time_taken"]//60, result["time_taken"]%60) }}</td>
+<td><span class="{{ 'status-success' if result['status']=='Completed' else 'status-danger' }}">{{ result["status"] }}</span></td>
+{% if not public %}<td class="action-cell"><button class="show-btn" type="button" onclick="showAnswers({{ result['id'] }})" title="Show participant answer">👁 Show</button><a class="download-btn" href="/admin/download/{{ result['id'] }}.xlsx" title="Download participant answer">⬇</a><button class="dustbin-btn" type="button" onclick="deleteResult({{ result['id'] }})" title="Delete this result">🗑</button></td>{% endif %}
+</tr>
+{% else %}<tr><td colspan="{{ 8 if not public else 7 }}" class="empty">No results yet.</td></tr>{% endfor %}
+</tbody></table></div>
+{% if public %}<div class="public-note">Official result details and Excel download are protected by the Admin Results password.</div><a href="/admin" class="secondary-btn">Admin Results</a>{% endif %}
+</div>
+{% if not public %}
+<script>
+function postWithPassword(action, fieldName, password) {
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = action;
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = fieldName;
+    input.value = password;
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+}
+function showAnswers(id) {
+    const password = prompt("Enter Show Answers password:");
+    if (password === null) return;
+    if (!password) { alert("Password is required."); return; }
+    postWithPassword("/admin/show/" + id, "show_password", password);
+}
+function deleteResult(id) {
+    const password = prompt("Enter dustbin password to delete this result:");
+    if (password === null) return;
+    if (!password) { alert("Password is required."); return; }
+    postWithPassword("/admin/delete/" + id, "dustbin_password", password);
+}
+function clearLeaderboard() {
+    const confirmed = confirm("Are you sure you want to CLEAR ALL leaderboard results? This cannot be undone.");
+    if (!confirmed) return;
+    const password = prompt("Enter dustbin password to clear the leaderboard:");
+    if (password === null) return;
+    if (!password) { alert("Password is required."); return; }
+    postWithPassword("/admin/clear", "dustbin_password", password);
+}
+</script>
+{% endif %}
+</body></html>

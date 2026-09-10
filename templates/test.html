@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Debugging Test</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css', v='abhiraj-final-20260909') }}"
+    >
+
+</head>
+
+
+<body class="test-page">
+
+
+    <!-- =========================
+         HEADER
+         ========================= -->
+
+    <header class="test-header">
+
+        <div>
+
+            <h2>🛡 Cyber Debug Arena</h2>
+
+            <p>
+
+                Team:
+                <strong>{{ team_name }}</strong>
+
+                &nbsp; | &nbsp;
+
+                Participant:
+                <strong>{{ name }}</strong>
+
+                &nbsp; | &nbsp;
+
+                Set
+                {{ set_number }}
+
+            </p>
+
+        </div>
+
+
+        <!-- TIMER -->
+
+        <div class="timer-box">
+
+            <span>TIME LEFT</span>
+
+            <strong id="timer">00:00</strong>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =========================
+         ANTI CHEAT WARNING
+         ========================= -->
+
+    <div class="warning-box">
+
+        ⚠
+
+        <strong>ANTI-CHEAT:</strong>
+
+        Do not switch tabs/windows, open AI assistants,
+        use browser search, or leave fullscreen.
+
+        Any focus/tab/fullscreen change will terminate
+        the test.
+
+    </div>
+
+
+
+    <!-- =========================
+         QUESTION PROGRESS
+         ========================= -->
+
+    <div
+        class="question-progress"
+        id="questionProgress"
+    >
+
+        Question 1 of {{ questions|length }}
+
+    </div>
+
+
+
+    <!-- =========================
+         ANTI CHEAT OVERLAY
+         ========================= -->
+
+    <div
+        id="antiCheatOverlay"
+        class="anti-cheat-overlay"
+    >
+
+        <div class="anti-cheat-message">
+
+            <h1>
+                TEST TERMINATED
+            </h1>
+
+            <p>
+                Leaving the test window, switching tabs,
+                or leaving fullscreen is not allowed.
+            </p>
+
+            <p>
+                Your attempt is being submitted as
+                <strong>0 marks</strong>.
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         TEST FORM
+         ========================= -->
+
+    <form
+        id="testForm"
+        action="/submit"
+        method="POST"
+    >
+
+
+        <!-- =========================
+             DISPLAY QUESTIONS
+             ========================= -->
+
+        {% for question in questions %}
+
+
+        <section
+            class="question-card{% if not loop.first %} question-hidden{% endif %}"
+            data-question-index="{{ loop.index0 }}"
+        >
+
+
+            <!-- QUESTION HEADER -->
+
+            <div class="question-header">
+
+                <div>
+
+                    <span class="question-number">
+
+                        QUESTION {{ loop.index }}
+
+                    </span>
+
+
+                    <h2>
+
+                        {{ question.title }}
+
+                    </h2>
+
+                </div>
+
+
+                <span class="difficulty">
+
+                    {{ question.difficulty }}
+
+                </span>
+
+            </div>
+
+
+
+            <!-- QUESTION INFO -->
+
+            <div class="question-info">
+
+
+                <span>
+
+                    Marks:
+
+                    <strong>
+
+                        {{ question.marks }}
+
+                    </strong>
+
+                </span>
+
+
+                <span>
+
+                    Hidden Tests:
+
+                    <strong>
+
+                        {{ question.tests|length }} × 2.5 marks
+
+                    </strong>
+
+                </span>
+
+
+            </div>
+
+
+
+            <!-- =========================
+                 TASK DESCRIPTION
+                 ========================= -->
+
+            <div class="description">
+
+                <h3>
+                    Task
+                </h3>
+
+
+                <p>
+
+                    {{ question.description }}
+
+                </p>
+
+            </div>
+
+
+
+            <!-- =========================
+                 BUGGY CODE
+                 ========================= -->
+
+            <div class="code-box">
+
+
+                <div class="code-title">
+
+                    <span>
+                        Buggy Code
+                    </span>
+
+
+                    <span>
+
+                        {{ question.tests|length }}
+                        hidden tests • 2.5 marks each
+
+                    </span>
+
+                </div>
+
+
+                <pre><code>{{ question.code }}</code></pre>
+
+
+            </div>
+
+
+
+            <!-- =========================
+                 ANSWER AREA
+                 ========================= -->
+
+            <div class="editor-area">
+                <div class="editor-label-row">
+                    <label>Your Corrected Answer</label>
+                    <span>Line numbers update automatically</span>
+                </div>
+                <div class="code-editor">
+                    <pre class="line-numbers" aria-hidden="true">1</pre>
+                    <textarea
+                        name="answer{{ question.id }}"
+                        placeholder="Write the corrected program here...
+You can enter as many lines as needed.
+Line numbers will appear on the left.
+"
+                        spellcheck="false"
+                        wrap="off"
+                    ></textarea>
+                </div>
+            </div>
+
+
+        </section>
+
+
+        {% endfor %}
+
+
+
+        <!-- =========================
+             NAVIGATION BUTTONS
+             ========================= -->
+
+        <div class="question-navigation">
+
+
+            <button
+                type="button"
+                class="secondary-btn"
+                id="prevBtn"
+                disabled
+            >
+
+                ← Previous
+
+            </button>
+
+
+            <button
+                type="button"
+                class="primary-btn nav-next"
+                id="nextBtn"
+            >
+
+                Next →
+
+            </button>
+
+
+            <button
+                type="submit"
+                class="submit-btn nav-submit"
+                id="submitBtn"
+                hidden
+            >
+
+                Submit Challenge
+
+            </button>
+
+
+        </div>
+
+
+    </form>
+
+
+
+    <!-- =========================
+         TIMER VALUE FROM FLASK
+         ========================= -->
+
+    <script>
+
+        const startingTime =
+            Number("{{ remaining }}");
+
+    </script>
+
+
+
+    <!-- =========================
+         EXISTING JAVASCRIPT
+         ========================= -->
+
+    <script
+        src="{{ url_for('static', filename='js/test.js') }}"
+    ></script>
+
+
+</body>
+
+</html>
